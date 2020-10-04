@@ -3,16 +3,105 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PesquisaCep.Mobile.Views.NewItemPage"
              Shell.PresentationMode="ModalAnimated"
-             Title="New Item">
+             Title="Pesquisa de CEP">
     <ContentPage.Content>
-        <StackLayout Spacing="3" Padding="15">
-            <Label Text="Text" FontSize="Medium" />
-            <Entry Text="{Binding Text, Mode=TwoWay}" FontSize="Medium" />
-            <Label Text="Description" FontSize="Medium" />
-            <Editor Text="{Binding Description, Mode=TwoWay}" AutoSize="TextChanges" FontSize="Medium" Margin="0" />
-            <StackLayout Orientation="Horizontal">
-                <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
-                <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
+        <StackLayout Spacing="3" Padding="15" VerticalOptions="FillAndExpand">
+            <Label
+                Text="CEP"
+                FontSize="Medium" />
+            <Entry 
+                Text="{Binding ZipCode, Mode=TwoWay}"
+                FontSize="Medium"
+                Keyboard="Numeric"/>
+            <Button
+                Text="Pesquisar"
+                HorizontalOptions="Fill"
+                Command="{Binding SearchZipCodeCommand}">                
+            </Button>
+            <Button
+                Text="Salvar"
+                BackgroundColor="Green"
+                Command="{Binding SaveCommand}"
+                HorizontalOptions="FillAndExpand">                
+            </Button>
+            <StackLayout
+                IsVisible="true"
+                Orientation="Vertical"
+                HorizontalOptions="Fill"
+                VerticalOptions="FillAndExpand">
+                <Label
+                    Text="Resultado da Pesquisa"
+                    FontSize="Subtitle"/>
+                <Label
+                    Text="CEP"
+                    FontSize="Title"/>
+                <Label
+                    Text="{Binding ZipCodeInfoData.CEP, Mode=TwoWay}"
+                    FontSize="Small"
+                    IsEnabled="False"/>
+                <Label
+                    Text="Logradouro"
+                    FontSize="Title"/>
+                <Label
+                    Text="{Binding ZipCodeInfoData.Logradouro}"
+                    FontSize="Small"
+                    IsEnabled="False"/>
+                <Label
+                    Text="Complemento"
+                    FontSize="Title"/>
+                <Label
+                    Text="{Binding ZipCodeInfoData.Complemento}"
+                    FontSize="Small"
+                    IsEnabled="False"/>
+                <Label
+                    Text="Bairro"
+                    FontSize="Title"/>
+                <Label
+                    Text="{Binding ZipCodeInfoData.Bairro}"
+                    FontSize="Small"
+                    IsEnabled="False"/>
+                <Label
+                    Text="Localidade"
+                    FontSize="Title"/>
+                <Label
+                    Text="{Binding ZipCodeInfoData.Localidade}"
+                    FontSize="Small"
+                    IsEnabled="False"/>
+                <Label
+                    Text="UF"
+                    FontSize="Title"/>
+                <Label
+                    Text="{Binding ZipCodeInfoData.UF}"
+                    FontSize="Small"
+                    IsEnabled="False"/>
+                <Label
+                    Text="IBGE"
+                    FontSize="Title"/>
+                <Label
+                    Text="{Binding ZipCodeInfoData.IBGE}"
+                    FontSize="Small"
+                    IsEnabled="False"/>
+                <Label
+                    Text="GIA"
+                    FontSize="Title"/>
+                <Label
+                    Text="{Binding ZipCodeInfoData.GIA}"
+                    FontSize="Small"
+                    IsEnabled="False"/>
+                <Label
+                    Text="DDD"
+                    FontSize="Title"/>
+                <Label
+                    Text="{Binding ZipCodeInfoData.DDD}"
+                    FontSize="Small"
+                    IsEnabled="False"/>
+                <Label
+                    Text="SIAFI"
+                    FontSize="Title"/>
+                <Label
+                    Text="{Binding ZipCodeInfoData.SIAFI}"
+                    FontSize="Small"
+                    IsEnabled="False"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

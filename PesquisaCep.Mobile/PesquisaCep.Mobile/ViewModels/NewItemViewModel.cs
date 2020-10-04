@@ -1,35 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Input;
 using PesquisaCep.Mobile.Models;
+using PesquisaCep.Model;
 using Xamarin.Forms;
 
 namespace PesquisaCep.Mobile.ViewModels
 {
     public class NewItemViewModel : BaseViewModel
     {
-        private string text;
+        private string _zipConde;
         private string description;
+        public Command SaveCommand { get; }
+        public Command CancelCommand { get; }
+        public Command SearchZipCodeCommand { get; set; }
+        public ZipCodeInfo ZipCodeInfoData { get; set; }
 
-        public NewItemViewModel()
+        public string ZipCode
         {
-            SaveCommand = new Command(OnSave, ValidateSave);
-            CancelCommand = new Command(OnCancel);
-            this.PropertyChanged +=
-                (_, __) => SaveCommand.ChangeCanExecute();
-        }
-
-        private bool ValidateSave()
-        {
-            return !String.IsNullOrWhiteSpace(text)
-                && !String.IsNullOrWhiteSpace(description);
-        }
-
-        public string Text
-        {
-            get => text;
-            set => SetProperty(ref text, value);
+            get => _zipConde;
+            set => SetProperty(ref _zipConde, value);
         }
 
         public string Description
@@ -38,8 +26,19 @@ namespace PesquisaCep.Mobile.ViewModels
             set => SetProperty(ref description, value);
         }
 
-        public Command SaveCommand { get; }
-        public Command CancelCommand { get; }
+        public NewItemViewModel()
+        {
+            SearchZipCodeCommand = new Command(OnSearchZipCodeCommand);
+            SaveCommand = new Command(OnSave);
+            CancelCommand = new Command(OnCancel);
+            this.PropertyChanged +=
+                (_, __) => SaveCommand.ChangeCanExecute();
+        }
+
+        private bool ValidateSearch()
+        {
+            return !String.IsNullOrWhiteSpace(_zipConde);
+        }
 
         private async void OnCancel()
         {
@@ -52,7 +51,7 @@ namespace PesquisaCep.Mobile.ViewModels
             Item newItem = new Item()
             {
                 Id = Guid.NewGuid().ToString(),
-                Text = Text,
+                Text = ZipCode,
                 Description = Description
             };
 
@@ -60,6 +59,11 @@ namespace PesquisaCep.Mobile.ViewModels
 
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");
+        }
+
+        private async void OnSearchZipCodeCommand()
+        {
+            ZipCodeInfoData = await ZipCodeService.GetZipCodeInfo(ZipCode);
         }
     }
 }

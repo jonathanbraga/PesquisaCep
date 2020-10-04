@@ -63,6 +63,7 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DbConfig.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="Entitlements.plist" />
@@ -132,11 +133,18 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="sqlite-net-pcl">
+      <Version>1.7.335</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="4.6.0.1141" />
     <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\..\PesquisaCep.Service\PesquisaCep.Service.csproj">
+      <Project>{A5EB7D77-B40A-4202-A913-5CDB5F026657}</Project>
+      <Name>PesquisaCep.Service</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PesquisaCep.Mobile\PesquisaCep.Mobile.csproj">
       <Project>{4FE4C82A-F09A-4170-9DEF-CC511DDCEB8B}</Project>
       <Name>PesquisaCep.Mobile</Name>
