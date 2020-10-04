@@ -7,12 +7,14 @@ using Xamarin.Forms;
 
 using PesquisaCep.Mobile.Models;
 using PesquisaCep.Mobile.Services;
+using PesquisaCep.Service;
 
 namespace PesquisaCep.Mobile.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
         public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
+        public IZipCode ZipCodeService => DependencyService.Get<IZipCode>();
 
         bool isBusy = false;
         public bool IsBusy

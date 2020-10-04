@@ -1,8 +1,6 @@
-﻿using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using Xamarin.Forms;
 using PesquisaCep.Mobile.Services;
-using PesquisaCep.Mobile.Views;
+using PesquisaCep.Service;
 
 namespace PesquisaCep.Mobile
 {
@@ -14,6 +12,7 @@ namespace PesquisaCep.Mobile
             InitializeComponent();
 
             DependencyService.Register<MockDataStore>();
+            DependencyService.Register<ZipCodeService>();
             MainPage = new AppShell();
         }
 
