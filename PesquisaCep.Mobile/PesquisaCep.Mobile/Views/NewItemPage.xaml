@@ -7,7 +7,7 @@
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="200"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <StackLayout
@@ -21,22 +21,18 @@
                     Text="{Binding ZipCode, Mode=TwoWay}"
                     FontSize="Medium"
                     Keyboard="Numeric"/>
-                <Button
-                    Text="Pesquisar"
-                    HorizontalOptions="Fill"
-                    Command="{Binding SearchZipCodeCommand}"/>
-                <Button
-                    Text="Salvar"
-                    BackgroundColor="Green"
-                    Command="{Binding SaveCommand}"
-                    HorizontalOptions="FillAndExpand"/>
-                <ActivityIndicator
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
-                    Color="Gray"
-                    IsRunning="{Binding Loading}"
-                    IsVisible="{Binding Loading}"/>
+                <StackLayout Orientation="Horizontal">
+                    <Button Text="Pesquisar" Command="{Binding SearchZipCodeCommand}" HorizontalOptions="FillAndExpand"></Button>
+                    <Button Text="Save" BackgroundColor="Green" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
+                </StackLayout>
             </StackLayout>
+            <ActivityIndicator
+                Grid.Row="1"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Color="Gray"
+                IsRunning="{Binding Loading}"
+                IsVisible="{Binding Loading}"/>
             <ScrollView
                 Orientation="Vertical"
                 Grid.Row="1">
@@ -46,76 +42,63 @@
                     HorizontalOptions="Fill"
                     VerticalOptions="FillAndExpand">
                     <Label
-                        Text="Resultado da Pesquisa"
-                        FontSize="Subtitle"/>
-                    <Label
-                        Text="CEP"
-                        FontSize="Title"/>
-                    <Label
-                        Text="{Binding ZipCodeInfoData.CEP, Mode=TwoWay}"
+                        Text="{Binding
+                                Path = ZipCodeInfoData.CEP,
+                                StringFormat= 'CEP: {0}'}"
                         FontSize="Small"
                         IsEnabled="False"/>
                     <Label
-                        Text="Logradouro"
-                        FontSize="Title"/>
-                    <Label
-                        Text="{Binding ZipCodeInfoData.Logradouro}"
+                        Text="{Binding 
+                                Path = ZipCodeInfoData.Logradouro,
+                                StringFormat='Logradouro: {0}'}"
                         FontSize="Small"
                         IsEnabled="False"/>
                     <Label
-                        Text="Complemento"
-                        FontSize="Title"/>
-                    <Label
-                        Text="{Binding ZipCodeInfoData.Complemento}"
+                        Text="{Binding
+                                Path = ZipCodeInfoData.Complemento,
+                                StringFormat= 'Complemento: {0}'}"
                         FontSize="Small"
                         IsEnabled="False"/>
                     <Label
-                        Text="Bairro"
-                        FontSize="Title"/>
-                    <Label
-                        Text="{Binding ZipCodeInfoData.Bairro}"
+                        Text="{Binding 
+                                Path = ZipCodeInfoData.Bairro,
+                                StringFormat= 'Bairro: {0}'}"
                         FontSize="Small"
                         IsEnabled="False"/>
                     <Label
-                        Text="Localidade"
-                        FontSize="Title"/>
-                    <Label
-                        Text="{Binding ZipCodeInfoData.Localidade}"
+                        Text="{Binding 
+                                Path = ZipCodeInfoData.Localidade,
+                                StringFormat= 'Localidade: {0}'}"
                         FontSize="Small"
                         IsEnabled="False"/>
                     <Label
-                        Text="UF"
-                        FontSize="Title"/>
-                    <Label
-                        Text="{Binding ZipCodeInfoData.UF}"
+                        Text="{Binding 
+                                Path = ZipCodeInfoData.UF,
+                                StringFormat= 'UF: {0}'}"
                         FontSize="Small"
                         IsEnabled="False"/>
                     <Label
-                        Text="IBGE"
-                        FontSize="Title"/>
-                    <Label
-                        Text="{Binding ZipCodeInfoData.IBGE}"
+                        Text="{Binding
+                                Path = ZipCodeInfoData.IBGE,
+                                StringFormat = 'IBGE: {0}'}"
                         FontSize="Small"
                         IsEnabled="False"/>
                     <Label
-                        Text="GIA"
-                        FontSize="Title"/>
-                    <Label
-                        Text="{Binding ZipCodeInfoData.GIA}"
+                        Text="{Binding
+                                Path = ZipCodeInfoData.GIA,
+                                StringFormat= 'GIA: {0}'}"
                         FontSize="Small"
                         IsEnabled="False"/>
                     <Label
-                        Text="DDD"
-                        FontSize="Title"/>
-                    <Label
-                        Text="{Binding ZipCodeInfoData.DDD}"
+                        Text="{Binding
+                                Path = ZipCodeInfoData.DDD,
+                                StringFormat= 'DDD: {0}'}"
                         FontSize="Small"
                         IsEnabled="False"/>
                     <Label
-                        Text="SIAFI"
-                        FontSize="Title"/>
-                    <Label
-                        Text="{Binding ZipCodeInfoData.SIAFI}"
+                        Text="{Binding
+                                Path = ZipCodeInfoData.SIAFI,
+                                StringFormat= 'SIAFI: {0}'}"
                         FontSize="Small"
                         IsEnabled="False"/>
                 </StackLayout>

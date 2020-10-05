@@ -30,8 +30,9 @@
     </Shell.Resources>
 
     <TabBar>
-        <ShellContent Title="CEP" Icon="tab_about.png" Route="NewItem" ContentTemplate="{DataTemplate local:NewItemPage}" />
-        <ShellContent Title="Browse" Icon="tab_feed.png" ContentTemplate="{DataTemplate local:ItemsPage}" />
+        <ShellContent Title="CEP" Route="NewItem" ContentTemplate="{DataTemplate local:NewItemPage}" />
+        <ShellContent Title="LIST" ContentTemplate="{DataTemplate local:ItemsPage}" />
+        <ShellContent Title="MAP" ContentTemplate="{DataTemplate local:MapPage}" />
     </TabBar>
 
     <!--
