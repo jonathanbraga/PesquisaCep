@@ -19,7 +19,7 @@ namespace PesquisaCep.Mobile.Store
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            DataConnection.Dispose();
         }
     }
 }

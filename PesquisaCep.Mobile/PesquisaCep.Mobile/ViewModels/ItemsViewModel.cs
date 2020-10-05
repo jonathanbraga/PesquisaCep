@@ -7,55 +7,48 @@ using Xamarin.Forms;
 
 using PesquisaCep.Mobile.Models;
 using PesquisaCep.Mobile.Views;
+using PesquisaCep.Model;
 
 namespace PesquisaCep.Mobile.ViewModels
 {
     public class ItemsViewModel : BaseViewModel
     {
         private Item _selectedItem;
-
-        public ObservableCollection<Item> Items { get; }
         public Command LoadItemsCommand { get; }
         public Command AddItemCommand { get; }
         public Command<Item> ItemTapped { get; }
 
+        private ObservableCollection<ZipCodeInfo> _items;
+        public ObservableCollection<ZipCodeInfo> Items
+        {
+            get { return _items; }
+            set { SetProperty(ref _items, value); }
+        }
+
         public ItemsViewModel()
         {
-            Title = "Browse";
-            Items = new ObservableCollection<Item>();
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            LoadItemsCommand = new Command(ExecuteLoadItemsCommand);
 
             ItemTapped = new Command<Item>(OnItemSelected);
 
             AddItemCommand = new Command(OnAddItem);
         }
 
-        async Task ExecuteLoadItemsCommand()
+        private async void ExecuteLoadItemsCommand()
         {
-            IsBusy = true;
+            await ExecuteLoadItemsCommandAsync();
+        }
 
-            try
+        Task ExecuteLoadItemsCommandAsync()
+        {
+            return Task.Run(() =>
             {
-                Items.Clear();
-                var items = await DataStore.GetItemsAsync(true);
-                foreach (var item in items)
-                {
-                    Items.Add(item);
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
-            finally
-            {
-                IsBusy = false;
-            }
+                LoadLocalData();
+            });
         }
 
         public void OnAppearing()
         {
-            IsBusy = true;
             SelectedItem = null;
         }
 
@@ -81,6 +74,27 @@ namespace PesquisaCep.Mobile.ViewModels
 
             // This will push the ItemDetailPage onto the navigation stack
             await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
+        }
+
+        public void LoadLocalData()
+        {
+            using (var data = new Store.LocalStore())
+            {
+                try
+                {
+                    IsBusy = true;
+                    Items = new ObservableCollection<ZipCodeInfo>(data.DataConnection.Table<ZipCodeInfo>().ToList());
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                finally
+                {
+                    IsBusy = false;
+                }
+            }
         }
     }
 }

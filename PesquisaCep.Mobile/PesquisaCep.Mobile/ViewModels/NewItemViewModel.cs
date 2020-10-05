@@ -1,29 +1,54 @@
 ﻿using System;
-using PesquisaCep.Mobile.Models;
+using System.Linq;
 using PesquisaCep.Model;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace PesquisaCep.Mobile.ViewModels
 {
     public class NewItemViewModel : BaseViewModel
     {
-        private string _zipConde;
+        private string _zipCode;
         private string description;
+        private bool _loading;
+        private ZipCodeInfo _zipCodeInfoData;
         public Command SaveCommand { get; }
         public Command CancelCommand { get; }
         public Command SearchZipCodeCommand { get; set; }
-        public ZipCodeInfo ZipCodeInfoData { get; set; }
 
         public string ZipCode
         {
-            get => _zipConde;
-            set => SetProperty(ref _zipConde, value);
+            get => _zipCode;
+            set => SetProperty(ref _zipCode, value);
         }
 
         public string Description
         {
             get => description;
             set => SetProperty(ref description, value);
+        }
+
+        public ZipCodeInfo ZipCodeInfoData
+        {
+            get => _zipCodeInfoData;
+            set 
+            {
+                CanDisplay = value?.CEP != null;
+                SetProperty(ref _zipCodeInfoData, value);
+            }
+        }
+
+        public bool Loading
+        {
+            get { return _loading; }
+            set { SetProperty(ref _loading, value); }
+        }
+
+        private bool _canDisplay;
+        public bool CanDisplay
+        {
+            get { return _canDisplay; }
+            set { SetProperty(ref _canDisplay, value);}
         }
 
         public NewItemViewModel()
@@ -37,7 +62,7 @@ namespace PesquisaCep.Mobile.ViewModels
 
         private bool ValidateSearch()
         {
-            return !String.IsNullOrWhiteSpace(_zipConde);
+            return !String.IsNullOrWhiteSpace(_zipCode);
         }
 
         private async void OnCancel()
@@ -48,14 +73,36 @@ namespace PesquisaCep.Mobile.ViewModels
 
         private async void OnSave()
         {
-            Item newItem = new Item()
+            using(var data = new Store.LocalStore())
             {
-                Id = Guid.NewGuid().ToString(),
-                Text = ZipCode,
-                Description = Description
-            };
+                try
+                {
+                    var checkObj = data.DataConnection.Table<ZipCodeInfo>().FirstOrDefault(p => p.CEP == ZipCodeInfoData.CEP);
+                    if(checkObj == null)
+                    {
+                        var locations = await Geocoding.GetLocationsAsync(ZipCodeInfoData?.Logradouro);
+                        var place = locations.FirstOrDefault();
 
-            await DataStore.AddItemAsync(newItem);
+                        if(place != null)
+                        {
+                            ZipCodeInfoData.Latitude = place.Latitude;
+                            ZipCodeInfoData.Longitude = place.Longitude;
+
+                            data.DataConnection.Insert(ZipCodeInfoData);
+                            ZipCodeInfoData = new ZipCodeInfo();
+                            ZipCode = string.Empty;
+                        }
+                    }
+                    else
+                    {
+                        await App.Current.MainPage.DisplayAlert("Aviso", "CEP Já está cadastrado na base de dados", "Ok");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+            }
 
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");
@@ -63,7 +110,24 @@ namespace PesquisaCep.Mobile.ViewModels
 
         private async void OnSearchZipCodeCommand()
         {
-            ZipCodeInfoData = await ZipCodeService.GetZipCodeInfo(ZipCode);
+            Loading = true;
+            try
+            {
+                ZipCodeInfoData = await ZipCodeService.GetZipCodeInfo(ZipCode);
+                if(ZipCodeInfoData?.CEP == null)
+                {
+                    await App.Current.MainPage.DisplayAlert("Aviso", "Nenhuma informação encontrada.", "Ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            } 
+            finally
+            {
+                Loading = false;
+            }
+
         }
     }
 }
