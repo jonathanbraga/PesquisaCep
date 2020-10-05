@@ -66,9 +66,9 @@ namespace PesquisaCep.Mobile.ViewModels
 
         private async void OnSave()
         {
-            if(ZipCodeInfoData == null)
+            if(ZipCodeInfoData == null || ZipCodeInfoData?.CEP == null)
             {
-                await App.Current.MainPage.DisplayAlert("Aviso", "Nenhum dado foi encontrado, Por favor fazer uma nova busca.", "Ok");
+                await App.Current.MainPage.DisplayAlert(Constants.MESSAGE_TYPE_WARNNING, Constants.MESSAGE_NODATAFOUND, Constants.MESSAGE_BUTTONTITLE);
                 return;
             }
             using(var data = new Store.LocalStore())
@@ -93,7 +93,7 @@ namespace PesquisaCep.Mobile.ViewModels
                     }
                     else
                     {
-                        await App.Current.MainPage.DisplayAlert("Aviso", "CEP Já está cadastrado na base de dados", "Ok");
+                        await App.Current.MainPage.DisplayAlert(Constants.MESSAGE_TYPE_WARNNING, Constants.MESSAGE_DATAEXIST, Constants.MESSAGE_BUTTONTITLE);
                     }
                 }
                 catch (Exception ex)
@@ -111,7 +111,7 @@ namespace PesquisaCep.Mobile.ViewModels
                 ZipCodeInfoData = await ZipCodeService.GetZipCodeInfo(ZipCode);
                 if(ZipCodeInfoData?.CEP == null)
                 {
-                    await App.Current.MainPage.DisplayAlert("Aviso", "Nenhuma informação encontrada.", "Ok");
+                    await App.Current.MainPage.DisplayAlert(Constants.MESSAGE_TYPE_WARNNING, Constants.MESSAGE_NODATAFOUND, Constants.MESSAGE_BUTTONTITLE);
                 }
             }
             catch (Exception ex)

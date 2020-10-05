@@ -1,4 +1,5 @@
 ﻿using PesquisaCep.Mobile.ViewModels;
+using PesquisaCep.Model;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
@@ -14,7 +15,7 @@ namespace PesquisaCep.Mobile.Views
 
             BindingContext = _viewModel = new MapPageViewModel();
 
-            this.map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(-15.807889, -47.873588), Distance.FromKilometers(10000.0)));
+            this.map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(Constants.DEFAULT_LATITUDE, Constants.DEFAULT_LONGITUDE), Distance.FromKilometers(10000.0)));
         }
 
         protected override void OnAppearing()
