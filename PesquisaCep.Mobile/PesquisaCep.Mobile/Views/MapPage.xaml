@@ -1,19 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PesquisaCep.Mobile.Views.MapPage"             
-             xmlns:vm="clr-namespace:PesquisaCep.Mobile.ViewModels"
-             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps">
-
-    <ContentPage.BindingContext>
-        <vm:MapPageViewModel/>
-    </ContentPage.BindingContext>
+             x:Class="PesquisaCep.Mobile.Views.MapPage"
+             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             Title="Mapa CEPs">
 
     <ContentPage.Content>
-        <maps:Map
-            IsShowingUser="False"
-            MoveToLastRegionOnLayoutChange="False">            
-        </maps:Map>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <ActivityIndicator
+                Grid.Row="0"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Color="Gray"
+                IsRunning="{Binding Loading}"
+                IsVisible="{Binding Loading}"/>
+            <maps:Map
+                x:Name="map"
+                Grid.Row="1"
+                IsShowingUser="False"
+                MoveToLastRegionOnLayoutChange="False"
+                ItemsSource="{Binding Locations}">
+                <maps:Map.ItemTemplate>
+                        <DataTemplate>
+                            <maps:Pin
+                            Position="{Binding Position}"
+                            Label="{Binding Address}" />
+                        </DataTemplate>
+                    </maps:Map.ItemTemplate>
+                </maps:Map>
+        </Grid>
+        
     </ContentPage.Content>
   
 </ContentPage>

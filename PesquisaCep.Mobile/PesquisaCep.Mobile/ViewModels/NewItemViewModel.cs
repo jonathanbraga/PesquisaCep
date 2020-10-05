@@ -66,6 +66,11 @@ namespace PesquisaCep.Mobile.ViewModels
 
         private async void OnSave()
         {
+            if(ZipCodeInfoData == null)
+            {
+                await App.Current.MainPage.DisplayAlert("Aviso", "Nenhum dado foi encontrado, Por favor fazer uma nova busca.", "Ok");
+                return;
+            }
             using(var data = new Store.LocalStore())
             {
                 try

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using PesquisaCep.Mobile.Models;
 using PesquisaCep.Model;
+using System.Linq;
 
 namespace PesquisaCep.Mobile.ViewModels
 {
@@ -58,7 +59,7 @@ namespace PesquisaCep.Mobile.ViewModels
                 try
                 {
                     Loading = true;
-                    Items = new ObservableCollection<ZipCodeInfo>(data.DataConnection.Table<ZipCodeInfo>().ToList());
+                    Items = new ObservableCollection<ZipCodeInfo>(data.DataConnection.Table<ZipCodeInfo>().OrderByDescending(x => x.CEP).ToList());
 
                 }
                 catch (Exception ex)
