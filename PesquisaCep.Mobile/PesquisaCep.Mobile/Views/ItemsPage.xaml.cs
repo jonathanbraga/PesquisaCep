@@ -14,6 +14,12 @@ namespace PesquisaCep.Mobile.Views
             BindingContext = _viewModel = new ItemsViewModel();
         }
 
+        private void ItemSelectedColorBackground(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem == null) return;
+            ((ListView)sender).SelectedItem = null;
+        }
+
         protected override void OnAppearing()
         {
             base.OnAppearing();

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using PesquisaCep.Mobile.Models;
+using PesquisaCep.Model;
 using Xamarin.Forms;
 
 namespace PesquisaCep.Mobile.ViewModels
@@ -10,22 +12,12 @@ namespace PesquisaCep.Mobile.ViewModels
     public class ItemDetailViewModel : BaseViewModel
     {
         private string itemId;
-        private string text;
-        private string description;
-        public string Id { get; set; }
-
-        public string Text
+        private ZipCodeInfo _item;
+        public ZipCodeInfo Item
         {
-            get => text;
-            set => SetProperty(ref text, value);
+            get { return _item; }
+            set { SetProperty(ref _item, value); }
         }
-
-        public string Description
-        {
-            get => description;
-            set => SetProperty(ref description, value);
-        }
-
         public string ItemId
         {
             get
@@ -39,18 +31,19 @@ namespace PesquisaCep.Mobile.ViewModels
             }
         }
 
-        public async void LoadItemId(string itemId)
+        public void LoadItemId(string itemId)
         {
-            try
+            using (var data = new Store.LocalStore())
             {
-                var item = await DataStore.GetItemAsync(itemId);
-                Id = item.Id;
-                Text = item.Text;
-                Description = item.Description;
-            }
-            catch (Exception)
-            {
-                Debug.WriteLine("Failed to Load Item");
+                try
+                {
+                    Item = data.DataConnection.Table<ZipCodeInfo>().FirstOrDefault(x => x.CEP == itemId);
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
             }
         }
     }

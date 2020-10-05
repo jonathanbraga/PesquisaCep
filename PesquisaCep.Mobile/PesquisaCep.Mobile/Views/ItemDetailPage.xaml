@@ -2,13 +2,61 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PesquisaCep.Mobile.Views.ItemDetailPage"
-             Title="{Binding Title}">
+             Title="Detalhe">
 
-    <StackLayout Spacing="20" Padding="15">
-        <Label Text="Text:" FontSize="Medium" />
-        <Label Text="{Binding Text}" FontSize="Small"/>
-        <Label Text="Description:" FontSize="Medium" />
-        <Label Text="{Binding Description}" FontSize="Small"/>
-    </StackLayout>
+    <ScrollView Orientation="Vertical">
+        <StackLayout Spacing="20" Padding="15">
+            <Label
+                Text="{Binding
+                    Path = Item.CEP,
+                    StringFormat= 'CEP: {0}'}"
+                FontSize="Medium"/>
+            <Label
+                Text="{Binding 
+                        Path = Item.Logradouro,
+                        StringFormat='Logradouro: {0}'}"
+                FontSize="Medium"/>
+            <Label
+                Text="{Binding
+                        Path = Item.Complemento,
+                        StringFormat= 'Complemento: {0}'}"
+                FontSize="Medium"/>
+            <Label
+                Text="{Binding 
+                        Path = Item.Bairro,
+                        StringFormat= 'Bairro: {0}'}"
+                FontSize="Medium"/>
+            <Label
+                Text="{Binding 
+                        Path = Item.Localidade,
+                        StringFormat= 'Localidade: {0}'}"
+                FontSize="Medium"/>
+            <Label
+                Text="{Binding 
+                        Path = Item.UF,
+                        StringFormat= 'UF: {0}'}"
+                FontSize="Medium"/>
+            <Label
+                Text="{Binding
+                        Path = Item.IBGE,
+                        StringFormat = 'IBGE: {0}'}"
+                FontSize="Medium"/>
+            <Label
+                Text="{Binding
+                        Path = Item.GIA,
+                        StringFormat= 'GIA: {0}'}"
+                FontSize="Medium"/>
+            <Label
+                Text="{Binding
+                        Path = Item.DDD,
+                        StringFormat= 'DDD: {0}'}"
+                FontSize="Medium"/>
+            <Label
+                Text="{Binding
+                        Path = Item.SIAFI,
+                        StringFormat= 'SIAFI: {0}'}"
+                FontSize="Medium"/>
+        </StackLayout>        
+    </ScrollView>
     
 </ContentPage>

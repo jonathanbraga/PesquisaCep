@@ -9,11 +9,14 @@
         IsPullToRefreshEnabled="true"
         IsRefreshing="{Binding Loading}"
         RefreshCommand="{Binding LoadItemsCommand}"
-        ItemsSource="{Binding Items}">
+        ItemsSource="{Binding Items}"
+        ItemTappedCommand="{Binding ItemTappedCommand}"
+        ItemSelected="ItemSelectedColorBackground">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <TextCell
-                    Text="{Binding CEP}"/>
+                    Text="{Binding CEP}"
+                    Detail="{Binding Logradouro}"/>
             </DataTemplate>
         </ListView.ItemTemplate>
     </customControls:CustomListView>

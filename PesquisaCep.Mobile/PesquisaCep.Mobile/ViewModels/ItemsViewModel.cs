@@ -2,9 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using PesquisaCep.Mobile.Models;
 using PesquisaCep.Model;
-using System.Linq;
+using PesquisaCep.Mobile.Views;
 
 namespace PesquisaCep.Mobile.ViewModels
 {
@@ -15,7 +14,7 @@ namespace PesquisaCep.Mobile.ViewModels
 
         public Command LoadItemsCommand { get; }
         public Command AddItemCommand { get; }
-        public Command<Item> ItemTapped { get; }
+        public Command<ZipCodeInfo> ItemTappedCommand { get; }
 
         public ObservableCollection<ZipCodeInfo> Items
         {
@@ -32,6 +31,15 @@ namespace PesquisaCep.Mobile.ViewModels
         public ItemsViewModel()
         {
             LoadItemsCommand = new Command(ExecuteLoadItemsCommand);
+            ItemTappedCommand = new Command<ZipCodeInfo>(ExecuteItemTappedCommand);
+        }
+
+        private async void ExecuteItemTappedCommand(ZipCodeInfo obj)
+        {
+            if (obj == null)
+                return;
+
+            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={obj.CEP}");
         }
 
         private async void ExecuteLoadItemsCommand()
