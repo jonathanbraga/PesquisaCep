@@ -55,7 +55,6 @@ namespace PesquisaCep.Mobile.ViewModels
         {
             SearchZipCodeCommand = new Command(OnSearchZipCodeCommand);
             SaveCommand = new Command(OnSave);
-            CancelCommand = new Command(OnCancel);
             this.PropertyChanged +=
                 (_, __) => SaveCommand.ChangeCanExecute();
         }
@@ -63,12 +62,6 @@ namespace PesquisaCep.Mobile.ViewModels
         private bool ValidateSearch()
         {
             return !String.IsNullOrWhiteSpace(_zipCode);
-        }
-
-        private async void OnCancel()
-        {
-            // This will pop the current page off the navigation stack
-            await Shell.Current.GoToAsync("..");
         }
 
         private async void OnSave()
@@ -103,9 +96,6 @@ namespace PesquisaCep.Mobile.ViewModels
                     Console.WriteLine(ex);
                 }
             }
-
-            // This will pop the current page off the navigation stack
-            await Shell.Current.GoToAsync("..");
         }
 
         private async void OnSearchZipCodeCommand()
@@ -127,7 +117,6 @@ namespace PesquisaCep.Mobile.ViewModels
             {
                 Loading = false;
             }
-
         }
     }
 }

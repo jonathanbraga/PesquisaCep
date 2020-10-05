@@ -1,11 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PesquisaCep.Mobile.Views.MapPage"
-              xmlns:vm="clr-namespace:PesquisaCep.Mobile.ViewModels">
+             x:Class="PesquisaCep.Mobile.Views.MapPage"             
+             xmlns:vm="clr-namespace:PesquisaCep.Mobile.ViewModels"
+             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps">
 
     <ContentPage.BindingContext>
         <vm:MapPageViewModel/>
     </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <maps:Map
+            IsShowingUser="False"
+            MoveToLastRegionOnLayoutChange="False">            
+        </maps:Map>
+    </ContentPage.Content>
   
 </ContentPage>
